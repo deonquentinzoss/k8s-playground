@@ -29,10 +29,11 @@ resource "libvirt_domain" "k8s_nodes" {
 }
 
 resource "libvirt_volume" "k8s_volume" {
-  count = 3
-  name  = "k8s-node-${count.index}.qcow2"
-  pool  = "default"
-  source = "/var/lib/libvirt/images/ubuntu.qcow2"
+  count  = 3
+  name   = "k8s-node-${count.index}.qcow2"
+  pool   = "default"
+  source = "/var/lib/libvirt/images/ubuntu-20.04-minimal-cloudimg-amd64.img"
+  format = "qcow2"
 }
 
 resource "libvirt_cloudinit_disk" "common" {

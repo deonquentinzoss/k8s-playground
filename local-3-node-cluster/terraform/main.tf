@@ -59,4 +59,7 @@ users:
 EOF
 }
 
+output "k8s_ips" {
+  value = [for domain in libvirt_domain.k8s_nodes : domain.network_interface[0].addresses[0]]
+}
 

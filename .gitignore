@@ -5,6 +5,12 @@
 # Terraform lock file
 *.lock.hcl
 
+# Swap
+*.swp
+
+# Ansible inventory files
+inventory.yml
+
 # Terraform working directory
 .terraform/
 

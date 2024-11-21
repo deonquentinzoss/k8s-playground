@@ -1,0 +1,12 @@
+all:
+  hosts:
+    k8s-node-0:
+      ansible_host: <IP-ADDRESS-0>
+    k8s-node-1:
+      ansible_host: <IP-ADDRESS-1>
+    k8s-node-2:
+      ansible_host: <IP-ADDRESS-2>
+  vars:
+    ansible_user: ansible
+    ansible_ssh_private_key_file: <private ssh key>
+

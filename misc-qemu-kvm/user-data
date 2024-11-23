@@ -1,0 +1,12 @@
+#cloud-config
+users:
+  - name: ansible
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    ssh_authorized_keys:
+      - ssh-rsa AAAAB3...Your-Public-Key...
+ssh_authorized_keys:
+  - ssh-rsa AAAAB3...Your-Public-Key...
+runcmd:
+  - swapoff -a
+  - sed -i '/ swap / s/^/#/' /etc/fstab
+

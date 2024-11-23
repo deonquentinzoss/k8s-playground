@@ -1,0 +1,74 @@
+- hosts: all
+  become: true
+  tasks:
+    - name: Update and install dependencies
+      apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      with_items:
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - software-properties-common
+
+    - name: Disable swap
+      command: swapoff -a
+      args:
+        warn: false
+
+    - name: Remove swap entry from fstab
+      lineinfile:
+        path: /etc/fstab
+        regexp: '.* swap .*'
+        state: absent
+
+    - name: Add Kubernetes apt key
+      shell: |
+        curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+
+    - name: Add Kubernetes apt repository
+      apt_repository:
+        repo: "deb https://apt.kubernetes.io/ kubernetes-xenial main"
+        state: present
+
+    - name: Install Kubernetes components
+      apt:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - kubelet
+        - kubeadm
+        - kubectl
+
+    - name: Enable and start kubelet
+      systemd:
+        name: kubelet
+        enabled: yes
+        state: started
+
+- hosts: k8s-node-0
+  become: true
+  tasks:
+    - name: Initialize Kubernetes control plane
+      shell: |
+        kubeadm init --pod-network-cidr=192.168.0.0/16
+
+    - name: Copy Kubernetes admin config to user's home
+      command: |
+        mkdir -p /home/ansible/.kube && cp /etc/kubernetes/admin.conf /home/ansible/.kube/config && chown ansible:ansible /home/ansible/.kube/config
+
+    - name: Install Calico networking
+      become: false
+      command: kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+      environment:
+        KUBECONFIG: /home/ansible/.kube/config
+
+- hosts: k8s-node-[1:2]
+  become: true
+  tasks:
+    - name: Join Kubernetes cluster
+      shell: |
+        kubeadm join <control-plane-ip>:6443 --token <token> \
+          --discovery-token-ca-cert-hash sha256:<hash>
+

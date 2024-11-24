@@ -60,6 +60,6 @@ EOF
 }
 
 output "k8s_ips" {
-  value = [for domain in libvirt_domain.k8s_nodes : domain.network_interface[0].addresses[0]]
+  value = [for domain in libvirt_domain.k8s_nodes : domain.network_interface[0].addresses[0] if length(domain.network_interface[0].addresses) > 0]
 }
 

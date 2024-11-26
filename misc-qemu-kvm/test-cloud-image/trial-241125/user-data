@@ -1,0 +1,9 @@
+#cloud-config
+users:
+  - name: ubuntu
+    ssh-authorized-keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQClaMDw02Yb+VNOgIOFrXVjDmmgTLWvFiXteHsEOg6cmwslFOM3qGlcMu+4/0ELLkaIkapfAH20efK8iIJhzL6ToeIxjBtxeA5Zxxcu45XIzGTH6R33dDVwJDxUJRj1uRTgcZthlUTqs3e/ZKbEOLjkNr0t5xGo5wiCZ5hJmydCooMU+CVAhTEw5ZVuGjJUwqrBR/qLpji0FZzwMi9+sGkxz7MTBwTVDUvrPbFN8gy0rFghdND4TvU6Ejej3sReBI7NXJHuGQsyWcG9Qqlg5lSVbOZph7tS9RDj8UeRlQf6hWDXAEqkiKdQ1gFbg8WmlRxYycVQLSjBUivaLGUS3SVht4EWfNzgvxQ9bD1AG+U0fBYanO/0fNYDaQ346Q0Z+qAso+5+Uds/HInGM3i45WZ7uXRk6CM1xynQrYNU0dBCKrrVVzXFNqGfKjk+yAl9QiJ/RpSPUPuRljLzXe/jFwE+5m370TJvWxkHkOJyYHcWulL1WllZ2zle+nqhHNoCpMsMAFeb9+LArjSAlPFtB2XX0/5KiVNIJ71EsdKSosgPkrwpQ/CiyOKNE6sqYmOUdBLdJmjHEmv+qRjQn+/j/OGlxzPoFfD9G1NxuVNoQNHA79LUDph5oEYvHpl2qKIqAvgh/lt9eM2wPSJ5YDbidxKiUN9PqRq93yDQOE5qvUi1CQ==
+    sudo: ALL=(ALL) NOPASSWD:ALL
+	shell: /bin/bash
+runcmd:
+  - echo "Cloud-Init setup completed"
